@@ -1,0 +1,119 @@
+<!-- schedule.html (Perfect theme from original source) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>G-Sports</title>
+  <link rel="shortcut icon" href="https://gsports.gitam.edu/assets/images/fav.png">
+  <link rel="stylesheet" href="https://gsports.gitam.edu/assets/css/bootstrap.css">
+  <link rel="stylesheet" href="https://gsports.gitam.edu/assets/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://gsports.gitam.edu/assets/css/style.css">
+  <style>
+    .main_box {
+      padding: 50px;
+      background: #fff;
+      margin-top: 40px;
+    }
+    .title-box {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .slot-button {
+      padding: 10px;
+      margin: 5px;
+      font-weight: bold;
+      width: 130px;
+      text-align: center;
+      border-radius: 5px;
+      color: white;
+      cursor: pointer;
+    }
+    .available {
+      background-color: #28a745;
+    }
+    .booked {
+      background-color: #dc3545;
+      cursor: not-allowed;
+    }
+    .back-btn {
+      margin-top: 30px;
+      background: #6c757d;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="main_box">
+      <div class="title-box">
+        <h3 id="page-title">Booking Slots</h3>
+      </div>
+      <div class="row" id="slots-container" style="justify-content: center;"></div>
+      <div class="text-center">
+        <button class="back-btn" onclick="window.location='index.html'">Back to Home</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const facility = new URLSearchParams(window.location.search).get("facility");
+    const facilityNames = {
+      fitness: "UniSex Fitness Centre",
+      badminton: "EPDM Badminton Courts",
+      basketball: "Kabaddi and Basketball"
+    };
+
+    document.getElementById("page-title").textContent = `Booking Slots for ${facilityNames[facility] || facility}`;
+
+    const slots = [
+      "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM",
+      "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM",
+      "04:00 PM", "05:00 PM", "06:00 PM", "07:00 PM"
+    ];
+
+    const container = document.getElementById("slots-container");
+    const bookedData = JSON.parse(localStorage.getItem("bookings") || "{}");
+    const booked = bookedData[facility] || [];
+
+    slots.forEach(slot => {
+      const col = document.createElement("div");
+      col.className = "col-md-2 col-sm-4 col-6 d-flex justify-content-center";
+
+      const btn = document.createElement("div");
+      btn.className = "slot-button " + (booked.includes(slot) ? "booked" : "available");
+      btn.textContent = slot;
+
+      if (!booked.includes(slot)) {
+        btn.onclick = () => {
+          if (confirm(`Book slot: ${slot}?`)) {
+            let bookings = JSON.parse(localStorage.getItem("bookings") || "{}");
+            if (!bookings[facility]) bookings[facility] = [];
+            bookings[facility].push(slot);
+
+            let history = JSON.parse(localStorage.getItem("history") || "[]");
+            const displayFacility = facilityNames[facility] || facility;
+            history.push({
+              id: Date.now(),
+              facility: displayFacility,
+              slot,
+              date: new Date().toLocaleDateString(),
+              status: "Approved"
+            });
+
+            localStorage.setItem("bookings", JSON.stringify(bookings));
+            localStorage.setItem("history", JSON.stringify(history));
+            location.reload();
+          }
+        }
+      }
+
+      col.appendChild(btn);
+      container.appendChild(col);
+    });
+  </script>
+</body>
+</html>
