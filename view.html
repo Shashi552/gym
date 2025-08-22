@@ -1,189 +1,132 @@
-<!-- view.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>G-Sports - Reservation Details</title>
-  <link rel="shortcut icon" href="https://gsports.gitam.edu/assets/images/fav.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>G-Sports</title>
+  <link rel="shortcut icon" href="https://cdn.gitam.edu/images/favicon/favicon.ico">
   <link href="https://gsports.gitam.edu/assets/css/bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="https://gsports.gitam.edu/assets/font-awesome/css/font-awesome.min.css">
   <style>
-    :root {
-      --max-width: 900px;
-      --bg: #f5f7fa;
-      --card-bg: #fff;
-      --border: #e5e7eb;
-      --primary: #0056b3;
-      --success: #2e7d32;
-      --muted: #666;
-    }
-
-    * { box-sizing: border-box; }
-
     body {
-      font-family: "Trebuchet MS", system-ui, sans-serif;
-      font-size: 15px;
-      background: var(--bg);
-      margin: 0;
-      padding: 20px;
-      color: #111;
-    }
-
-    .container-custom {
-      max-width: var(--max-width);
-      margin: 40px auto;
-      background: var(--card-bg);
-      padding: 32px;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-
-    .back-link {
       font-size: 14px;
-      display: inline-block;
-      margin-bottom: 20px;
-      text-decoration: none;
-      color: var(--primary);
-      font-weight: 600;
+      font-family: "Trebuchet MS", sans-serif;
+      background: #e7e7e7;
     }
-    .back-link i {
-      margin-right: 4px;
-    }
-
-    .logo {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-    .logo img {
-      height: 56px;
-      width: auto;
-      margin-bottom: 8px;
-    }
-    .logo h3 {
-      margin: 4px 0;
-      font-weight: 700;
-      font-size: 22px;
-    }
-    .logo h4 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 500;
-      color: var(--muted);
-    }
-
-    .table-responsive {
-      overflow-x: auto;
+    #print-table {
+      margin: 0 auto;
+      width: 800px;
+      background: #fff;
+      padding: 20px;
     }
     table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-    }
-    table th, table td {
-      padding: 12px 14px;
-      border: 1px solid var(--border);
-      vertical-align: middle;
+      margin: 0 auto;
     }
     table th {
-      width: 30%;
-      font-weight: 600;
-      background: #fafafa;
-      color: #333;
+      font-weight: bold;
+      text-align: left;
+      width: 25%;
+      white-space: nowrap;
     }
     table td {
-      width: 70%;
-      color: #222;
+      width: 75%;
+    }
+    .user-img {
+      width: 75px;
+      height: auto;
+      object-fit: cover;
+      border-radius: 0; /* sharp edges */
+    }
+    .head-title {
+      font-weight: 900;
+      margin: 20px 0;
     }
 
-    .user-img {
-      width: 64px;
-      height: 64px;
-      object-fit: cover;
-      border-radius: 8px;
-      margin-right: 10px;
-      vertical-align: middle;
+    /* CLOCK: black background pulsing to white */
+#dateTime {
+  font-size: 18px;
+  font-family: monospace;
+  background: #000;       /* start black */
+  color: #00ff00;         /* green text */
+  padding: 10px 14px;
+  display: inline-block;
+  font-weight: bold;
+  border-radius: 0px;
+  min-width: 230px;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+  animation: bgPulse 1.2s linear infinite;
+}
+
+/* Animate background only: black → white → black */
+@keyframes bgPulse {
+  0%   { background-color: #000; }
+  50%  { background-color: #fff; }
+  100% { background-color: #000; }
+}
+
+
+    .blinker {
+      /* kept for compatibility if used elsewhere */
+      animation: bgPulse 1.2s linear infinite;
     }
 
     .text-success {
-      color: var(--success);
-      font-weight: 600;
+      color: #008000;
+      font-weight: bold;
     }
 
+    /* small responsive tweak */
     @media (max-width: 600px) {
-      body { padding: 12px; }
-      .container-custom { padding: 20px; margin: 20px auto; }
-      table th, table td { display: block; width: 100%; }
-      .user-img { width: 48px; height: 48px; }
+      .user-img { width: 60px; }
+      #dateTime { min-width: 180px; font-size: 16px; padding: 8px 10px; }
     }
   </style>
 </head>
 <body>
-  <div class="container-custom">
-    <a href="history.html" class="back-link"><i class="fa fa-chevron-left"></i> Back</a>
-    <div class="logo text-center">
-      <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" alt="GITAM Logo">
-      <h3>G-Sports</h3>
-      <h4>Reservation Information</h4>
-    </div>
-    <div class="table-responsive">
-      <table class="table table-bordered">
-        <tbody>
-          <tr>
-            <th>Ref. number</th>
-            <td><b id="ref-id"></b></td>
-          </tr>
-          <tr>
-            <th>Stadium</th>
-            <td>Fitness Centre (Uni Sex)</td>
-          </tr>
-          <tr>
-            <th>Facility</th>
-            <td id="facility"></td>
-          </tr>
-          <tr>
-            <th>Court</th>
-            <td id="court">court 1</td>
-          </tr>
-          <tr>
-            <th>Requester</th>
-            <td>
-              <img src="https://doeresults.gitam.edu/photo/img.aspx?id=BU22CSEN0300552" class="user-img" alt="Profile">
-              G VENKATA SHASHANK (BU22CSEN0300552 - student)
-            </td>
-          </tr>
-          <tr>
-            <th>Request from</th>
-            <td>BLR - GST - CSE</td>
-          </tr>
-          <tr>
-            <th>Mobile</th>
-            <td>7981494758</td>
-          </tr>
-          <tr>
-            <th>E-mail</th>
-            <td>vganjiku@gitam.in</td>
-          </tr>
-          <tr>
-            <th>Reserved date</th>
-            <td class="text-success" id="date"></td>
-          </tr>
-          <tr>
-            <th>Reserved slot</th>
-            <td class="text-success" id="slot"></td>
-          </tr>
-          <tr>
-            <th>Status</th>
-            <td class="text-success" id="status"></td>
-          </tr>
-          <tr>
-            <th>Remarks</th>
-            <td><b>Approved</b></td>
-          </tr>
-        </tbody>
-      </table>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div id="print-tables" class="panel panel-default">
+          <div class="panel-body" style="padding:50px" id="print-pdf">
+            <div><a href="javascript:window.history.back(0);"><i class="fa fa-arrow-left"></i> Back</a></div><br>
+            <div class="logo text-center">
+              <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" class="gitam-logo-1" height="50" style="margin-bottom: 0;">
+              <h3 style="margin-bottom: 0;">G-Sports</h3>
+              <h4 class="head-titles" style="margin-bottom: 0;">Reservation information</h4>
+              <h5 id="dateTime" class="blinker"></h5>
+            </div>
+            <div class="table-responsive">
+              <table class="m17 jb jb1 table table-bordered" style="width:100% !important">
+                <tbody>
+                  <tr><th>Ref. number</th><td><b id="ref-id"></b></td></tr>
+                  <tr><th>Reserved date</th><td><b class="text-success" id="date"></b></td></tr>
+                  <tr><th>Reserved slot</th><td><b class="text-success" id="slot"></b></td></tr>
+                  <tr><th>Status</th><td><b class="text-success" id="status"></b></td></tr>
+                  <tr><th>Stadium</th><td>Fitness Centre (Uni Sex)</td></tr>
+                  <tr><th>Facility</th><td id="facility"></td></tr>
+                  <tr><th>Court</th><td id="court">court 1</td></tr>
+                  <tr>
+                    <th>Requester</th>
+                    <td>
+                      <img src="https://doeresults.gitam.edu/photo/img.aspx?id=BU22CSEN0300552" class="user-img"/>
+                      G VENKATA SHASHANK (BU22CSEN0300552-student)
+                    </td>
+                  </tr>
+                  <tr><th>Request from</th><td>BLR - GST - CSE</td></tr>
+                  <tr><th>Mobile</th><td>7981494758</td></tr>
+                  <tr><th>E-mail</th><td>vganjiku@gitam.in</td></tr>
+                  <tr><th>Remarks</th><td><b>Approved</b></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
@@ -201,7 +144,7 @@
       document.getElementById("facility").textContent = booking.facility;
       document.getElementById("date").textContent = booking.date;
 
-      const fromHour = parseInt(booking.slot.split(":" )[0]);
+      const fromHour = parseInt(booking.slot.split(":")[0]);
       const suffix = booking.slot.toLowerCase().includes("pm") ? "PM" : "AM";
       let toHour = fromHour + 1;
       if (toHour > 12) toHour = toHour - 12;
@@ -211,6 +154,19 @@
       document.getElementById("slot").textContent = fullSlot;
       document.getElementById("status").textContent = booking.status;
     }
+
+    function updateTime() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.toLocaleString('default', {month: 'short'}).toUpperCase();
+      const day = String(now.getDate()).padStart(2, '0');
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById("dateTime").innerText = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
   </script>
 </body>
 </html>
