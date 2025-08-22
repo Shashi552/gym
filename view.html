@@ -9,54 +9,112 @@
   <link href="https://gsports.gitam.edu/assets/css/bootstrap.css" rel="stylesheet">
   <link rel="stylesheet" href="https://gsports.gitam.edu/assets/font-awesome/css/font-awesome.min.css">
   <style>
+    :root {
+      --max-width: 900px;
+      --bg: #f5f7fa;
+      --card-bg: #fff;
+      --border: #e5e7eb;
+      --primary: #0056b3;
+      --success: #2e7d32;
+      --muted: #666;
+    }
+
+    * { box-sizing: border-box; }
+
     body {
-      font-size: 14px;
-      font-family: "Trebuchet MS", sans-serif;
-      background: #f4f4f4;
+      font-family: "Trebuchet MS", system-ui, sans-serif;
+      font-size: 15px;
+      background: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: #111;
     }
+
     .container-custom {
-      max-width: 800px;
-      margin: 50px auto;
-      background: #fff;
-      padding: 40px;
-      border-radius: 8px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: var(--max-width);
+      margin: 40px auto;
+      background: var(--card-bg);
+      padding: 32px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     }
-    table th {
-      width: 30%;
-      font-weight: bold;
-    }
-    .logo img {
-      height: 60px;
-    }
-    .logo h3 {
-      margin-bottom: 0;
-      font-weight: bold;
-    }
-    .logo h4 {
-      font-size: 18px;
-      font-weight: normal;
-      margin-top: 10px;
-      margin-bottom: 30px;
-    }
-    .user-img {
-      width: 75px;
-      border-radius: 4px;
-      margin-right: 10px;
-    }
-    .text-success {
-      color: green;
-      font-weight: bold;
-    }
+
     .back-link {
       font-size: 14px;
       display: inline-block;
       margin-bottom: 20px;
       text-decoration: none;
+      color: var(--primary);
+      font-weight: 600;
     }
     .back-link i {
-      font-weight: bold;
-      color: #007bff;
+      margin-right: 4px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+    .logo img {
+      height: 56px;
+      width: auto;
+      margin-bottom: 8px;
+    }
+    .logo h3 {
+      margin: 4px 0;
+      font-weight: 700;
+      font-size: 22px;
+    }
+    .logo h4 {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+
+    .table-responsive {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+    }
+    table th, table td {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      vertical-align: middle;
+    }
+    table th {
+      width: 30%;
+      font-weight: 600;
+      background: #fafafa;
+      color: #333;
+    }
+    table td {
+      width: 70%;
+      color: #222;
+    }
+
+    .user-img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+
+    .text-success {
+      color: var(--success);
+      font-weight: 600;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 12px; }
+      .container-custom { padding: 20px; margin: 20px auto; }
+      table th, table td { display: block; width: 100%; }
+      .user-img { width: 48px; height: 48px; }
     }
   </style>
 </head>
@@ -66,7 +124,7 @@
     <div class="logo text-center">
       <img src="https://cdn.gitam.edu/images/logo/gitam-new-logo.png" alt="GITAM Logo">
       <h3>G-Sports</h3>
-      <h4>Reservation information</h4>
+      <h4>Reservation Information</h4>
     </div>
     <div class="table-responsive">
       <table class="table table-bordered">
@@ -138,7 +196,7 @@
       const month = parts[1].padStart(2, '0');
       const day = parts[0].padStart(2, '0');
       const randomDigits = Math.floor(1000000 + Math.random() * 8999999).toString();
-      const refId = `${year}${month}${day}${randomDigits.slice(0, 6)}`; // total 13 digits
+      const refId = `${year}${month}${day}${randomDigits.slice(0, 6)}`;
       document.getElementById("ref-id").textContent = refId;
       document.getElementById("facility").textContent = booking.facility;
       document.getElementById("date").textContent = booking.date;
